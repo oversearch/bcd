@@ -8,7 +8,12 @@
 #define BCD_MD_PAGESIZE	4096ULL
 #define BCD_SECTION "BACKTRACE_BCD_SB"
 
+#ifdef __aarch64__
+#define BCD_CC_FORCE(M, R)	\
+	__asm__ __volatile__("" : "=m" (M) : "r" (*(R)) : "memory");
+#else
 #define BCD_CC_FORCE(M, R)	\
 	__asm__ __volatile__("" : "=m" (M) : "q" (*(R)) : "memory");
+#endif
 
 #endif /* BCD_INTERNAL_CC_H */
